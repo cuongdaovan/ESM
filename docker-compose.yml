@@ -3,21 +3,21 @@ services:
   education:
     image: mysql/mysql-server:5.7
     ports:
-      - 3306:3306
+      - 3308:3306
     environment:
       - MYSQL_USER=cuong
       - MYSQL_PASSWORD=cuong
       - MYSQL_DATABASE=education
     volumes:
-      - .:/education
-  web:
+      - .:/education/db
+  esmweb:
     links:
       - education
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/ESM
+      - ./:/education/
     image: django
     stdin_open: true
     tty: true

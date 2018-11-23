@@ -1,0 +1,6 @@
+{% extends 'subject/base.html' %}
+{% block subject_list %}
+    {% for subject in subjects %}
+        {{ subject.name }}
+    {% endfor %}
+{% endblock %}
