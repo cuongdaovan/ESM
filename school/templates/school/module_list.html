@@ -1,0 +1,11 @@
+{% extends 'school/base.html' %}
+
+{% block content %}
+    {% for module in modules %}
+        <li>
+            module name: {{ module.name }} -
+            subject name: {{ module.subject }}
+        </li>
+    {% endfor %}
+
+{% endblock %}

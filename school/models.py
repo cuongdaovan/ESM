@@ -10,13 +10,6 @@ class Faculty(models.Model):
         return self.name
 
 
-class Major(models.Model):
-    major_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, blank=False)
-    type_of_training = ('')
-    history = models.TextField(max_length=1000, blank=True)
-
-
 class Subject(models.Model):
     subject_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=False)
