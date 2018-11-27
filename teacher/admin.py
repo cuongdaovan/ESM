@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from . import models as teacher_model
+
+admin.site.register(teacher_model.Teacher)
