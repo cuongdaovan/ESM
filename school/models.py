@@ -25,7 +25,7 @@ class Module(models.Model):
     subject = models.ForeignKey(Subject, related_name='modules', on_delete=models.CASCADE)
     description = models.TextField(max_length=1000)
     credit = models.IntegerField()
-    time = models.IntegerField()
+    time = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

@@ -1,6 +1,14 @@
 from django.urls import path
 from . import views as school_view
 
+from . import views
+
+from rest_framework import routers
+
+# router = routers.SimpleRouter()
+
+
 urlpatterns = [
-    path('subject/', school_view.SubjectList.as_view())
+    path('subject/', school_view.SubjectList.as_view()),
+    path('api/v1/subjects/', views.SubjectAPI.as_view())
 ]
