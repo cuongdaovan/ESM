@@ -3,9 +3,11 @@ from django.db import models
 from school import models as school_model
 
 
-# student table
 class Student(models.Model):
-    student_code = models.AutoField(primary_key=True)
+    student_id = models.BigIntegerField(
+        primary_key=True,
+        default=0
+    )
     name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
     hometown = models.CharField(max_length=200)
@@ -15,14 +17,22 @@ class Student(models.Model):
         ('TH', 'bi thoi hoc'),
         ('RT', 'ra truong'),
     )
-    status = models.CharField(choices=_status, max_length=10, default='')
+    status = models.CharField(
+        choices=_status,
+        max_length=10,
+        default=''
+    )
     # mark = models.ForeignKey()
     # class_s = models.ForeignKey()
     _sex = (
         ('female', 'female'),
         ('male', 'male')
     )
-    sex = models.CharField(max_length=10, choices=_sex, default='')
+    sex = models.CharField(
+        max_length=10,
+        choices=_sex,
+        default=''
+    )
     email = models.EmailField()
     password = models.CharField(max_length=50)
     course = models.CharField(max_length=100)
@@ -31,3 +41,21 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         related_name='students'
     )
+    subject_assessments = models.ManyToManyField(
+        school_model.Subject,
+        through='SjAssessment',
+    )
+
+
+class SjAssessment(models.Model):
+    subject = models.ForeignKey(
+        school_model.Subject,
+        on_delete=models.CASCADE
+    )
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE
+    )
+    content = models.TextField(max_length=1000)
+    time = models.TimeField()
+    date = models.DateField()
