@@ -8,29 +8,29 @@ class Student(models.Model):
         primary_key=True,
         default=0
     )
-    name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
     hometown = models.CharField(max_length=200)
     country = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
-    _status = (
+    __status__ = (
         ('TH', 'bi thoi hoc'),
         ('RT', 'ra truong'),
     )
     status = models.CharField(
-        choices=_status,
+        choices=__status__,
         max_length=10,
         default=''
     )
     # mark = models.ForeignKey()
     # class_s = models.ForeignKey()
-    _sex = (
+    __sex__ = (
         ('female', 'female'),
         ('male', 'male')
     )
     sex = models.CharField(
         max_length=10,
-        choices=_sex,
+        choices=__sex__,
         default=''
     )
     email = models.EmailField()
@@ -46,6 +46,9 @@ class Student(models.Model):
         through='SjAssessment',
     )
 
+    # def __str__(self):
+    #     return self.student_id
+
 
 class SjAssessment(models.Model):
     subject = models.ForeignKey(
@@ -59,3 +62,4 @@ class SjAssessment(models.Model):
     content = models.TextField(max_length=1000)
     time = models.TimeField()
     date = models.DateField()
+
