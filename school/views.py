@@ -12,6 +12,6 @@ class SubjectList(generic.ListView):
     context_object_name = 'subjects'
 
 
-class SubjectAPI(rest_generic.ListAPIView):
-    queryset = school_model.Subject.objects.all()
-    serializer_class = serializers.SubjectSerializer
+class ModuleAPI(rest_generic.ListAPIView):
+    queryset = school_model.Module.objects.all()
+    serializer_class = serializers.ModuleSerializer

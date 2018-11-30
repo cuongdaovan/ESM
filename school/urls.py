@@ -10,5 +10,5 @@ from rest_framework import routers
 
 urlpatterns = [
     path('subject/', school_view.SubjectList.as_view()),
-    path('api/v1/subjects/', views.SubjectAPI.as_view())
+    path('api/v1/modules/', views.ModuleAPI.as_view())
 ]

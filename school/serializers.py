@@ -3,7 +3,7 @@ from rest_framework import serializers
 from . import models
 
 
-class SubjectSerializer(serializers.ModelSerializer):
+class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Subject
+        model = models.Module
         fields = ('__all__')
