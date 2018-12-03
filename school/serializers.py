@@ -1,12 +1,20 @@
 from rest_framework import serializers
 
 from . import models
+from subject_assessment import serializers as sa_serializer
 
 
 class SubjectSerializer(serializers.ModelSerializer):
+    assessments = sa_serializer.AssessmentSerializer(many=True)
+
     class Meta:
         model = models.Subject
-        fields = ('__all__')
+        fields = (
+            'subject_id',
+            'name',
+            'description',
+            'assessments'
+        )
 
 
 class FacultySerializer(serializers.ModelSerializer):

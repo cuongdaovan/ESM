@@ -46,14 +46,15 @@ class Student(models.Model):
         through='SjAssessment',
     )
 
-    # def __str__(self):
-    #     return self.student_id
+    def __str__(self):
+        return self.full_name
 
 
 class SjAssessment(models.Model):
     subject = models.ForeignKey(
         school_model.Subject,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='assessments'
     )
     student = models.ForeignKey(
         Student,
