@@ -17,12 +17,6 @@ class SubjectSerializer(serializers.ModelSerializer):
         )
 
 
-class FacultySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Faculty
-        fields = ('__all__')
-
-
 class ModuleSerializer(serializers.ModelSerializer):
     # modules = serializers.StringRelatedField()
     subject = serializers.StringRelatedField()
@@ -40,3 +34,11 @@ class ModuleSerializer(serializers.ModelSerializer):
             'credit',
             'time'
         )
+
+
+class FacultySerializer(serializers.ModelSerializer):
+    faculty_modules = ModuleSerializer(many=True)
+
+    class Meta:
+        model = models.Faculty
+        fields = ('faculty_id', 'name', 'description', 'faculty_modules')

@@ -41,3 +41,17 @@ class SubjectApi(viewsets.ViewSet):
         subject = get_object_or_404(queryset, pk=pk)
         serializer = serializers.SubjectSerializer(subject)
         return Response(serializer.data)
+
+
+class FacultyApi(viewsets.ViewSet):
+
+    def list(self, request):
+        queryset = school_model.Faculty.objects.all()
+        serializer = serializers.FacultySerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = school_model.Faculty.objects.all()
+        faculty = get_object_or_404(queryset, pk=pk)
+        serializer = serializers.FacultySerializer(faculty)
+        return Response(serializer.data)
