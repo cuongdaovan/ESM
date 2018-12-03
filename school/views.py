@@ -15,7 +15,7 @@ class SubjectList(generic.ListView):
     context_object_name = 'subjects'
 
 
-class ModuleAPI(viewsets.ViewSet):
+class ModuleApi(viewsets.ViewSet):
 
     def list(self, request):
         queryset = school_model.Module.objects.all()
@@ -26,4 +26,18 @@ class ModuleAPI(viewsets.ViewSet):
         queryset = school_model.Module.objects.all()
         module = get_object_or_404(queryset, pk=pk)
         serializer = serializers.ModuleSerializer(module)
+        return Response(serializer.data)
+
+
+class SubjectApi(viewsets.ViewSet):
+
+    def list(self, request):
+        queryset = school_model.Subject.objects.all()
+        serializer = serializers.SubjectSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = school_model.Subject.objects.all()
+        subject = get_object_or_404(queryset, pk=pk)
+        serializer = serializers.SubjectSerializer(subject)
         return Response(serializer.data)

@@ -5,7 +5,7 @@ from . import models
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
-        models = models.Subject
+        model = models.Subject
         fields = ('__all__')
 
 
@@ -22,4 +22,13 @@ class ModuleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Module
-        fields = ('__all__')
+        fields = (
+            'module_id',
+            'subject',
+            'subject_id',
+            'faculty',
+            'name',
+            'description',
+            'credit',
+            'time'
+        )
