@@ -12,6 +12,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
             'id',
             'subject',
             'student',
+            'student_id',
             'content',
             'date',
             'time'
