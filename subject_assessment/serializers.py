@@ -4,7 +4,8 @@ from student import models as student_model
 
 
 class AssessmentSerializer(serializers.ModelSerializer):
-    student = serializers.StringRelatedField()
+    # name = serializers.StringRelatedField()
+    # subject = serializers.StringRelatedField()
 
     class Meta:
         model = student_model.SjAssessment
@@ -12,7 +13,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
             'id',
             'subject',
             'student',
-            'student_id',
+            # 'name',
             'content',
             'date',
             'time'

@@ -22,11 +22,5 @@ class AssessmentUpdate(generic.edit.CreateView):
 
 
 class AssessmentApi(viewsets.ModelViewSet):
-
     queryset = student_model.SjAssessment.objects.all()
     serializer_class = serializers.AssessmentSerializer
-
-    # def create(self, request):
-    #     queryset = student_model.SjAssessment.objects.all()
-    #     serializer = serializers.AssessmentSerializer(queryset, many=True)
-    #     return Response(serializer.data)
