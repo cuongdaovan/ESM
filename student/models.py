@@ -58,7 +58,8 @@ class SjAssessment(models.Model):
     )
     student = models.ForeignKey(
         Student,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='st_assessments',
     )
     content = models.TextField(max_length=1000)
     time = models.TimeField()
