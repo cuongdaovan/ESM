@@ -15,10 +15,40 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+
+from login import views
+
+from rest_framework_simplejwt import views as jwt_view
+from rest_framework import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('school/', include('school.urls')),
     path('sj/', include('subject_assessment.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path(
+        'api-auth/',
+        include('rest_framework.urls', namespace='rest_framework')
+    ),
+    path('login/', include('login.urls')),
+    path(
+        'login/',
+        views.LoginView.as_view(template_name='rest_framework/login.html'),
+        name='login'
+    ),
+    path('api/v1/token/', jwt_view.TokenObtainPairView.as_view()),
+    path('api/v1/refresh-token/', jwt_view.TokenRefreshView.as_view()),
+    path(
+        'api/v1/token/verify/',
+        jwt_view.TokenVerifyView.as_view(),
+        name='token_verify'
+    ),
+]
+urls.urlpatterns = [
+    path(
+        'login/',
+        views.LoginView.as_view(template_name='rest_framework/login.html'),
+        name='login'
+    ),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
