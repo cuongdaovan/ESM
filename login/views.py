@@ -56,7 +56,8 @@ class LoginAPI(jwt_v.TokenObtainPairView):
         if user_auth is not None:
             auth_login(request, user_auth)
             response = Response('success')
+            access_token = AccessToken().for_user(user=user_auth)
             response['refresh_token'] = jwt_s.TokenObtainPairSerializer.get_token(user=user_auth)
-            response['access_token'] = AccessToken().for_user(user=user_auth)
+            response['access_token'] = access_token
             return response
         return Response('fail', status=status.HTTP_401_UNAUTHORIZED)
