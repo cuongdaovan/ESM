@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import views
+from django.contrib.auth import views, authenticate
 from django.contrib.auth import (
     login as auth_login,
     logout as auth_logout
@@ -50,17 +50,13 @@ class LogoutView(views.LogoutView):
 class LoginAPI(jwt_v.TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         user = request.data
-        if Login_user.objects.filter(
-                username=user['username'],
-                password=user['password']):
-            user_auth = Login_user.objects.get(username=user['username'])
-            print(user_auth)
-            token_r = jwt_s.TokenObtainPairSerializer.get_token(user=user_auth)
-            token_a = AccessToken().for_user(user=user_auth)
-            response = Response('success', status=200)
-            response.set_cookie('refresh', token_r)
-            response.set_cookie('access', token_a)
-            print(token_a)
+        username = user['username']
+        password = user['password']
+        user_auth = authenticate(request, username=username, password=password)
+        if user_auth is not None:
+            auth_login(request, user_auth)
+            response = Response('success')
+            response['refresh_token'] = jwt_s.TokenObtainPairSerializer.get_token(user=user_auth)
+            response['access_token'] = AccessToken().for_user(user=user_auth)
             return response
-
-        return Response('fail', status=status.HTTP_400_BAD_REQUEST)
+        return Response('fail', status=status.HTTP_401_UNAUTHORIZED)
