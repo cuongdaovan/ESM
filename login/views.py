@@ -57,7 +57,10 @@ class LoginAPI(jwt_v.TokenObtainPairView):
             auth_login(request, user_auth)
             response = Response('success')
             access_token = AccessToken().for_user(user=user_auth)
-            response['refresh_token'] = jwt_s.TokenObtainPairSerializer.get_token(user=user_auth)
+            refresh_token = jwt_s.TokenObtainPairSerializer.get_token(user=user_auth)
+            response['refresh_token'] = refresh_token
             response['access_token'] = access_token
+            response.set_cookie('access_token', access_token)
+            response.set_cookie('refresh_token', refresh_token)
             return response
         return Response('fail', status=status.HTTP_401_UNAUTHORIZED)
