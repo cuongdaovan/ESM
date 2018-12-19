@@ -83,6 +83,8 @@ CORS_ALLOW_HEADERS = default_headers + (
     'refresh_token'
 )
 
+CORS_EXPOSE_HEADERS = ['access_token', 'refresh_token']
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
