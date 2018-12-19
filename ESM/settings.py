@@ -83,6 +83,8 @@ CORS_ALLOW_HEADERS = default_headers + (
     'refresh_token'
 )
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_EXPOSE_HEADERS = ['access_token', 'refresh_token']
 
 REST_FRAMEWORK = {
