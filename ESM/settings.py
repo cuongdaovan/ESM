@@ -75,6 +75,10 @@ CORS_ALLOW_HEADERS = (
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+)
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = default_headers + (
     'access_token',
     'refresh_token'
 )
