@@ -4,18 +4,15 @@ from django.shortcuts import get_object_or_404
 from . import models as school_model
 from . import serializers
 
-from rest_framework import generics as rest_generic
 from rest_framework import viewsets
 from rest_framework.response import Response
-
-
-class SubjectList(generic.ListView):
-    template_name = 'school/subject_list.html'
-    model = school_model.Subject
-    context_object_name = 'subjects'
+from rest_framework_simplejwt import serializers as jwt_s
+from rest_framework import permissions
+from rest_framework import authentication
 
 
 class ModuleApi(viewsets.ViewSet):
+    authentication_classes = (authentication.TokenAuthentication,)
 
     def list(self, request):
         queryset = school_model.Module.objects.all()
@@ -29,12 +26,31 @@ class ModuleApi(viewsets.ViewSet):
         return Response(serializer.data)
 
 
+class CustomAuthenticated(permissions.IsAuthenticated):
+    def has_permission(self, request, view):
+        header = request.META.get('HTTP_AUTHORIZATION')
+        token = header.split(' ')[1]
+        data = {'token': token}
+        print(token)
+        valid_data = jwt_s.TokenVerifySerializer().validate(data)
+        if valid_data == {}:
+            return True
+        else:
+            return False
+
+
 class SubjectApi(viewsets.ViewSet):
+    permission_classes = (CustomAuthenticated,)
 
     def list(self, request):
+        # print(request.META.get('HTTP_AUTHORIZATION'))
+        # data = {'refresh': request.COOKIES.get('refresh')}
+        # token = jwt_s.TokenRefreshSerializer().validate(data)
         queryset = school_model.Subject.objects.all()
         serializer = serializers.SubjectSerializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        # response.set_cookie('access', token.get('access'))
+        return response
 
     def retrieve(self, request, pk=None):
         queryset = school_model.Subject.objects.all()
@@ -48,10 +64,4 @@ class FacultyApi(viewsets.ViewSet):
     def list(self, request):
         queryset = school_model.Faculty.objects.all()
         serializer = serializers.FacultySerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        queryset = school_model.Faculty.objects.all()
-        faculty = get_object_or_404(queryset, pk=pk)
-        serializer = serializers.FacultySerializer(faculty)
         return Response(serializer.data)

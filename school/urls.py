@@ -1,5 +1,4 @@
 from django.urls import path
-from . import views as school_view
 
 from . import views
 
@@ -11,6 +10,6 @@ router.register('api/v1/subjects', views.SubjectApi, basename='subject')
 router.register('api/v1/faculties', views.FacultyApi, basename='faculty')
 
 urlpatterns = [
-    path('subject/', school_view.SubjectList.as_view()),
+    # path('subject/', school_view.SubjectList.as_view()),
 ]
 urlpatterns += router.urls
