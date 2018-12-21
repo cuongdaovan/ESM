@@ -43,20 +43,27 @@ class SubjectApi(viewsets.ViewSet):
     permission_classes = (CustomAuthenticated,)
 
     def list(self, request):
-        # print(request.META.get('HTTP_AUTHORIZATION'))
-        # data = {'refresh': request.COOKIES.get('refresh')}
-        # token = jwt_s.TokenRefreshSerializer().validate(data)
+        header = request.META.get('HTTP_AUTHORIZATION')
+        token = header.split(' ')[1]
+        data = {'refresh': token}
+        access_token = jwt_s.TokenRefreshSerializer().validate(data)
         queryset = school_model.Subject.objects.all()
         serializer = serializers.SubjectSerializer(queryset, many=True)
         response = Response(serializer.data)
-        # response.set_cookie('access', token.get('access'))
+        response['access_token'] = access_token
         return response
 
     def retrieve(self, request, pk=None):
+        header = request.META.get('HTTP_AUTHORIZATION')
+        token = header.split(' ')[1]
+        data = {'refresh': token}
+        access_token = jwt_s.TokenRefreshSerializer().validate(data)
         queryset = school_model.Subject.objects.all()
         subject = get_object_or_404(queryset, pk=pk)
         serializer = serializers.SubjectSerializer(subject)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        response['access_token'] = access_token
+        return response
 
 
 class FacultyApi(viewsets.ViewSet):
