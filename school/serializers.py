@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from . import models
 from subject_assessment import serializers as sa_serializer
+from student import serializers as st_serializer
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -13,7 +14,7 @@ class SubjectSerializer(serializers.ModelSerializer):
             'subject_id',
             'name',
             'description',
-            'assessments'
+            'assessments',
         )
 
 
@@ -38,7 +39,14 @@ class ModuleSerializer(serializers.ModelSerializer):
 
 class FacultySerializer(serializers.ModelSerializer):
     faculty_modules = ModuleSerializer(many=True)
+    # students = st_serializer.StudentSerializer(many=True)
 
     class Meta:
         model = models.Faculty
-        fields = ('faculty_id', 'name', 'description', 'faculty_modules')
+        fields = (
+            'faculty_id',
+            'name',
+            'description',
+            'faculty_modules',
+            'students',
+        )
